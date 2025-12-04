@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="description" content="FENa 및 FEUrea 계산기 - 급성신손상 감별진단 도구">
+    <title>FENa/FEUrea 계산기</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>FENa/FEUrea 계산기</h1>
+            <p class="subtitle">급성신손상 감별진단 도구</p>
+        </header>
+
+        <main>
+            <!-- 공통 입력 섹션 -->
+            <section class="input-section">
+                <h2>공통 검사값</h2>
+
+                <div class="input-group">
+                    <label for="pCr">혈청 크레아티닌 (PCr)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="pCr" inputmode="decimal" step="0.01" min="0" placeholder="0.00">
+                        <span class="unit">mg/dL</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="uCr">소변 크레아티닌 (UCr)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="uCr" inputmode="decimal" step="0.01" min="0" placeholder="0.00">
+                        <span class="unit">mg/dL</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FENa 입력 섹션 -->
+            <section class="input-section">
+                <h2>FENa 계산용</h2>
+
+                <div class="input-group">
+                    <label for="pNa">혈청 나트륨 (PNa)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="pNa" inputmode="decimal" step="0.1" min="0" placeholder="0.0">
+                        <span class="unit">mmol/L</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="uNa">소변 나트륨 (UNa)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="uNa" inputmode="decimal" step="0.1" min="0" placeholder="0.0">
+                        <span class="unit">mmol/L</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FEUrea 입력 섹션 -->
+            <section class="input-section">
+                <h2>FEUrea 계산용</h2>
+
+                <div class="input-group">
+                    <label for="pUrea">혈청 BUN (PUrea)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="pUrea" inputmode="decimal" step="0.1" min="0" placeholder="0.0">
+                        <span class="unit">mg/dL</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="uUrea">소변 요소 (UUrea)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="uUrea" inputmode="decimal" step="0.1" min="0" placeholder="0.0">
+                        <span class="unit">mg/dL</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 버튼 섹션 -->
+            <section class="button-section">
+                <button type="button" id="calculateBtn" class="btn btn-primary">계산하기</button>
+                <button type="button" id="resetBtn" class="btn btn-secondary">초기화</button>
+            </section>
+
+            <!-- 결과 섹션 -->
+            <section id="resultSection" class="result-section hidden">
+                <h2>계산 결과</h2>
+
+                <!-- FENa 결과 -->
+                <div id="fenaResult" class="result-card">
+                    <div class="result-header">
+                        <h3>FENa</h3>
+                        <span class="result-value" id="fenaValue">--%</span>
+                    </div>
+                    <div class="result-interpretation" id="fenaInterpretation">
+                        <span class="interpretation-text"></span>
+                    </div>
+                    <div class="result-formula">
+                        <small>FENa = (UNa × PCr) / (PNa × UCr) × 100</small>
+                    </div>
+                </div>
+
+                <!-- FEUrea 결과 -->
+                <div id="feureaResult" class="result-card">
+                    <div class="result-header">
+                        <h3>FEUrea</h3>
+                        <span class="result-value" id="feureaValue">--%</span>
+                    </div>
+                    <div class="result-interpretation" id="feureaInterpretation">
+                        <span class="interpretation-text"></span>
+                    </div>
+                    <div class="result-formula">
+                        <small>FEUrea = (UUrea × PCr) / (PUrea × UCr) × 100</small>
+                    </div>
+                </div>
+
+                <!-- 해석 가이드 -->
+                <div class="interpretation-guide">
+                    <h3>결과 해석 가이드</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>지표</th>
+                                <th>신전성 AKI</th>
+                                <th>신실질성 AKI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>FENa</td>
+                                <td class="prerenal">&lt; 1%</td>
+                                <td class="intrinsic">&gt; 2%</td>
+                            </tr>
+                            <tr>
+                                <td>FEUrea</td>
+                                <td class="prerenal">&lt; 35%</td>
+                                <td class="intrinsic">&gt; 35%</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="guide-note">* FEUrea는 이뇨제 사용 환자에서 더 유용합니다.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>본 계산기는 참고용이며, 임상적 판단을 대체하지 않습니다.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

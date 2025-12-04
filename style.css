@@ -1,0 +1,390 @@
+/* CSS 변수 정의 */
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --secondary-color: #64748b;
+    --secondary-hover: #475569;
+    --success-color: #16a34a;
+    --success-bg: #dcfce7;
+    --warning-color: #ca8a04;
+    --warning-bg: #fef9c3;
+    --danger-color: #dc2626;
+    --danger-bg: #fee2e2;
+    --background: #f8fafc;
+    --surface: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --border-radius: 12px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+}
+
+/* 기본 리셋 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--background);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* 컨테이너 */
+.container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: var(--spacing-md);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 헤더 */
+header {
+    text-align: center;
+    padding: var(--spacing-lg) 0;
+}
+
+header h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-xs);
+}
+
+header .subtitle {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+/* 메인 */
+main {
+    flex: 1;
+}
+
+/* 입력 섹션 */
+.input-section {
+    background: var(--surface);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.input-section h2 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* 입력 그룹 */
+.input-group {
+    margin-bottom: var(--spacing-md);
+}
+
+.input-group:last-child {
+    margin-bottom: 0;
+}
+
+.input-group label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-xs);
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+}
+
+.input-wrapper:focus-within {
+    border-color: var(--primary-color);
+}
+
+.input-wrapper input {
+    flex: 1;
+    border: none;
+    padding: var(--spacing-md);
+    font-size: 1.125rem;
+    outline: none;
+    background: transparent;
+    min-width: 0;
+}
+
+.input-wrapper input::placeholder {
+    color: #cbd5e1;
+}
+
+.input-wrapper .unit {
+    padding: var(--spacing-md);
+    background: var(--background);
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* 버튼 섹션 */
+.button-section {
+    display: flex;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+}
+
+.btn {
+    flex: 1;
+    padding: var(--spacing-md) var(--spacing-lg);
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover,
+.btn-primary:active {
+    background: var(--primary-hover);
+}
+
+.btn-secondary {
+    background: var(--surface);
+    color: var(--secondary-color);
+    border: 2px solid var(--border-color);
+}
+
+.btn-secondary:hover,
+.btn-secondary:active {
+    background: var(--background);
+    border-color: var(--secondary-color);
+}
+
+/* 결과 섹션 */
+.result-section {
+    margin-bottom: var(--spacing-lg);
+}
+
+.result-section h2 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+}
+
+.result-section.hidden {
+    display: none;
+}
+
+/* 결과 카드 */
+.result-card {
+    background: var(--surface);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border-left: 4px solid var(--border-color);
+}
+
+.result-card.prerenal {
+    border-left-color: var(--success-color);
+    background: var(--success-bg);
+}
+
+.result-card.borderline {
+    border-left-color: var(--warning-color);
+    background: var(--warning-bg);
+}
+
+.result-card.intrinsic {
+    border-left-color: var(--danger-color);
+    background: var(--danger-bg);
+}
+
+.result-card.insufficient {
+    border-left-color: var(--secondary-color);
+    background: var(--background);
+}
+
+.result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--spacing-sm);
+}
+
+.result-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.result-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.result-card.prerenal .result-value {
+    color: var(--success-color);
+}
+
+.result-card.borderline .result-value {
+    color: var(--warning-color);
+}
+
+.result-card.intrinsic .result-value {
+    color: var(--danger-color);
+}
+
+.result-card.insufficient .result-value {
+    color: var(--secondary-color);
+}
+
+.result-interpretation {
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-radius: 6px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.interpretation-text {
+    font-size: 0.9375rem;
+    font-weight: 500;
+}
+
+.result-formula {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+/* 해석 가이드 */
+.interpretation-guide {
+    background: var(--surface);
+    border-radius: var(--border-radius);
+    padding: var(--spacing-lg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.interpretation-guide h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: var(--spacing-md);
+}
+
+.interpretation-guide table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin-bottom: var(--spacing-md);
+}
+
+.interpretation-guide th,
+.interpretation-guide td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.interpretation-guide th {
+    background: var(--background);
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.interpretation-guide td.prerenal {
+    color: var(--success-color);
+    font-weight: 600;
+}
+
+.interpretation-guide td.intrinsic {
+    color: var(--danger-color);
+    font-weight: 600;
+}
+
+.guide-note {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    font-style: italic;
+}
+
+/* 푸터 */
+footer {
+    text-align: center;
+    padding: var(--spacing-lg) 0;
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+}
+
+/* 반응형 - 더 작은 화면 */
+@media (max-width: 360px) {
+    :root {
+        --spacing-md: 12px;
+        --spacing-lg: 20px;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .input-wrapper input {
+        font-size: 1rem;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .input-wrapper .unit {
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+
+    .btn {
+        padding: var(--spacing-sm) var(--spacing-md);
+        font-size: 0.9375rem;
+    }
+}
+
+/* 다크모드 대응 (시스템 설정 따름) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --background: #0f172a;
+        --surface: #1e293b;
+        --text-primary: #f1f5f9;
+        --text-secondary: #94a3b8;
+        --border-color: #334155;
+        --success-bg: #14532d;
+        --warning-bg: #713f12;
+        --danger-bg: #7f1d1d;
+    }
+
+    .input-wrapper input {
+        color: var(--text-primary);
+    }
+
+    .interpretation-guide th {
+        background: var(--border-color);
+    }
+}
