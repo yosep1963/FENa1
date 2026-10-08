@@ -134,6 +134,14 @@ main {
     min-width: 0;
 }
 
+.input-wrapper input[aria-invalid="true"] {
+    color: var(--danger-color);
+}
+
+.input-wrapper:has(input[aria-invalid="true"]) {
+    border-color: var(--danger-color);
+}
+
 .input-wrapper input::placeholder {
     color: #cbd5e1;
 }

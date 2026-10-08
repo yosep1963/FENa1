@@ -28,7 +28,7 @@ script.js   - 계산 로직, DOM 조작, 이벤트 처리
 ### 계산 공식
 
 - **FENa (%)** = (UNa × PCr) / (PNa × UCr) × 100
-- **FEUrea (%)** = (UUrea × PCr) / (PUrea × UCr) × 100
+- **FEUrea (%)** = (UUN × PCr) / (BUN × UCr) × 100
 
 ### 결과 해석 기준
 
@@ -41,7 +41,7 @@ script.js   - 계산 로직, DOM 조작, 이벤트 처리
 
 - 혈청/소변 나트륨: mmol/L
 - 혈청/소변 크레아티닌: mg/dL
-- 혈청 BUN / 소변 요소: mg/dL
+- 혈청 BUN / 소변 요소질소(UUN): mg/dL (둘 다 요소"질소" 기준이어야 함. 소변 urea를 넣으면 약 2.14배 과대평가)
 
 ### CSS 색상 코딩
 

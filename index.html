@@ -65,7 +65,7 @@
                 <h2>FEUrea 계산용</h2>
 
                 <div class="input-group">
-                    <label for="pUrea">혈청 BUN (PUrea)</label>
+                    <label for="pUrea">혈청 요소질소 (BUN)</label>
                     <div class="input-wrapper">
                         <input type="number" id="pUrea" inputmode="decimal" step="0.1" min="0" placeholder="0.0">
                         <span class="unit">mg/dL</span>
@@ -73,7 +73,7 @@
                 </div>
 
                 <div class="input-group">
-                    <label for="uUrea">소변 요소 (UUrea)</label>
+                    <label for="uUrea">소변 요소질소 (UUN)</label>
                     <div class="input-wrapper">
                         <input type="number" id="uUrea" inputmode="decimal" step="0.1" min="0" placeholder="0.0">
                         <span class="unit">mg/dL</span>
@@ -115,7 +115,7 @@
                         <span class="interpretation-text"></span>
                     </div>
                     <div class="result-formula">
-                        <small>FEUrea = (UUrea × PCr) / (PUrea × UCr) × 100</small>
+                        <small>FEUrea = (UUN × PCr) / (BUN × UCr) × 100</small>
                     </div>
                 </div>
 

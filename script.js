@@ -30,14 +30,14 @@ const elements = {
  * FENa 계산
  * FENa (%) = (UNa × PCr) / (PNa × UCr) × 100
  * @param {number} uNa - 소변 나트륨 (mmol/L)
- * @param {number} pNa - 혈청 나트륨 (mg/dL)
+ * @param {number} pNa - 혈청 나트륨 (mmol/L)
  * @param {number} uCr - 소변 크레아티닌 (mg/dL)
  * @param {number} pCr - 혈청 크레아티닌 (mg/dL)
  * @returns {number|null} FENa 값 (%) 또는 null (계산 불가시)
  */
 function calculateFENa(uNa, pNa, uCr, pCr) {
-    // 필수값 확인
-    if (!uNa || !pNa || !uCr || !pCr) {
+    // 필수값 확인 (0은 유효한 측정값이므로 null만 누락으로 처리)
+    if (uNa === null || pNa === null || uCr === null || pCr === null) {
         return null;
     }
 
@@ -52,16 +52,16 @@ function calculateFENa(uNa, pNa, uCr, pCr) {
 
 /**
  * FEUrea 계산
- * FEUrea (%) = (UUrea × PCr) / (PUrea × UCr) × 100
- * @param {number} uUrea - 소변 요소 (mg/dL)
+ * FEUrea (%) = (UUN × PCr) / (BUN × UCr) × 100
+ * @param {number} uUrea - 소변 요소질소 (mg/dL)
  * @param {number} pUrea - 혈청 BUN (mg/dL)
  * @param {number} uCr - 소변 크레아티닌 (mg/dL)
  * @param {number} pCr - 혈청 크레아티닌 (mg/dL)
  * @returns {number|null} FEUrea 값 (%) 또는 null (계산 불가시)
  */
 function calculateFEUrea(uUrea, pUrea, uCr, pCr) {
-    // 필수값 확인
-    if (!uUrea || !pUrea || !uCr || !pCr) {
+    // 필수값 확인 (0은 유효한 측정값이므로 null만 누락으로 처리)
+    if (uUrea === null || pUrea === null || uCr === null || pCr === null) {
         return null;
     }
 
@@ -113,7 +113,7 @@ function interpretFENa(fena) {
 function interpretFEUrea(feurea) {
     if (feurea === null) {
         return {
-            text: '계산에 필요한 값이 부족합니다 (PCr, UCr, PUrea, UUrea)',
+            text: '계산에 필요한 값이 부족합니다 (PCr, UCr, BUN, UUN)',
             className: 'insufficient'
         };
     }
@@ -134,17 +134,55 @@ function interpretFEUrea(feurea) {
 /**
  * 입력값 가져오기
  * @param {HTMLInputElement} input - 입력 요소
- * @returns {number|null} 숫자 값 또는 null
+ * @returns {number|null} 숫자 값 또는 null (빈 값)
  */
 function getInputValue(input) {
     const value = parseFloat(input.value);
-    return isNaN(value) || value < 0 ? null : value;
+    return isNaN(value) ? null : value;
+}
+
+/**
+ * 소수점 둘째 자리 반올림 (표시값과 해석 기준을 일치시키기 위함)
+ * @param {number|null} value
+ * @returns {number|null}
+ */
+function roundTo2(value) {
+    return value === null ? null : Math.round(value * 100) / 100;
+}
+
+/**
+ * 결과 카드에 계산 불가/오류 상태 표시
+ */
+function showCardMessage(card, valueEl, interpretationEl, text) {
+    valueEl.textContent = '--%';
+    interpretationEl.querySelector('.interpretation-text').textContent = text;
+    card.className = 'result-card insufficient';
 }
 
 /**
  * 결과 표시
  */
 function displayResults() {
+    const inputs = [elements.pCr, elements.uCr, elements.pNa, elements.uNa, elements.pUrea, elements.uUrea];
+
+    // 음수 입력 검사
+    let hasNegative = false;
+    inputs.forEach(input => {
+        const value = getInputValue(input);
+        const invalid = value !== null && value < 0;
+        input.setAttribute('aria-invalid', invalid ? 'true' : 'false');
+        if (invalid) hasNegative = true;
+    });
+
+    if (hasNegative) {
+        const message = '음수는 입력할 수 없습니다. 입력값을 확인하세요.';
+        showCardMessage(elements.fenaResult, elements.fenaValue, elements.fenaInterpretation, message);
+        showCardMessage(elements.feureaResult, elements.feureaValue, elements.feureaInterpretation, message);
+        elements.resultSection.classList.remove('hidden');
+        elements.resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+    }
+
     // 입력값 가져오기
     const pCr = getInputValue(elements.pCr);
     const uCr = getInputValue(elements.uCr);
@@ -154,7 +192,7 @@ function displayResults() {
     const uUrea = getInputValue(elements.uUrea);
 
     // FENa 계산 및 표시
-    const fena = calculateFENa(uNa, pNa, uCr, pCr);
+    const fena = roundTo2(calculateFENa(uNa, pNa, uCr, pCr));
     const fenaInterpretation = interpretFENa(fena);
 
     elements.fenaValue.textContent = fena !== null ? fena.toFixed(2) + '%' : '--%';
@@ -164,7 +202,7 @@ function displayResults() {
     elements.fenaResult.className = 'result-card ' + fenaInterpretation.className;
 
     // FEUrea 계산 및 표시
-    const feurea = calculateFEUrea(uUrea, pUrea, uCr, pCr);
+    const feurea = roundTo2(calculateFEUrea(uUrea, pUrea, uCr, pCr));
     const feureaInterpretation = interpretFEUrea(feurea);
 
     elements.feureaValue.textContent = feurea !== null ? feurea.toFixed(2) + '%' : '--%';
@@ -191,6 +229,8 @@ function resetInputs() {
     elements.uNa.value = '';
     elements.pUrea.value = '';
     elements.uUrea.value = '';
+    [elements.pCr, elements.uCr, elements.pNa, elements.uNa, elements.pUrea, elements.uUrea]
+        .forEach(input => input.removeAttribute('aria-invalid'));
 
     // 결과 섹션 숨기기
     elements.resultSection.classList.add('hidden');
